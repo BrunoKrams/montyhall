@@ -1,17 +1,10 @@
 package de.brunokrams;
 
 import java.util.List;
-import java.util.Random;
 
 import static de.brunokrams.RandomAccessList.toRandomAccessList;
 
 public abstract class Strategy {
-
-    protected final Random random;
-
-    public Strategy() {
-        this.random = new Random(System.currentTimeMillis());
-    }
 
     public Door chooseFirstDoor(RandomAccessList<Door> doors) {
         return doors.getRandomElement();
