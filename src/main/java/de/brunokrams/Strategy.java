@@ -3,6 +3,8 @@ package de.brunokrams;
 import java.util.List;
 import java.util.Random;
 
+import static de.brunokrams.RandomAccessList.toRandomAccessList;
+
 public abstract class Strategy {
 
     protected final Random random;
@@ -11,8 +13,8 @@ public abstract class Strategy {
         this.random = new Random(System.currentTimeMillis());
     }
 
-    public Door chooseFirstDoor(List<Door> doors) {
-        return doors.get(random.nextInt(doors.size()));
+    public Door chooseFirstDoor(RandomAccessList<Door> doors) {
+        return doors.getRandomElement();
     }
 
     public abstract Door chooseDoor(List<Door> doors, Door chosen);
@@ -27,8 +29,8 @@ public abstract class Strategy {
     public static final Strategy CHANGE = new Strategy() {
         @Override
         public Door chooseDoor(List<Door> doors, Door chosen) {
-            List<Door> selectableDoors = doors.stream().filter(door -> (!door.isOpen() && door != chosen)).toList();
-            return selectableDoors.get(random.nextInt(selectableDoors.size()));
+            RandomAccessList<Door> selectableDoors = doors.stream().filter(door -> (!door.isOpen() && door != chosen)).collect(toRandomAccessList());
+            return selectableDoors.getRandomElement();
         }
     };
 

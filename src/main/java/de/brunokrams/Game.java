@@ -1,26 +1,24 @@
 package de.brunokrams;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import static de.brunokrams.RandomAccessList.toRandomAccessList;
 
 public class Game {
 
     private final Door winner;
-    private final List<Door> doors;
-    private final Random random;
+    private final RandomAccessList<Door> doors;
     private Door chosen;
 
     private static final int NR_OF_DOORS = 3;
 
     public Game() {
-        random = new Random(System.currentTimeMillis());
-        doors = new ArrayList<>();
+        doors = new RandomAccessList<>();
         for (int i = 0; i < NR_OF_DOORS; i++) {
             doors.add(new Door());
         }
 
-        winner = doors.get(random.nextInt(NR_OF_DOORS));
+        winner = doors.getRandomElement();
     }
 
     public boolean play(Strategy strategy) {
@@ -31,8 +29,8 @@ public class Game {
     }
 
     private void openRandomDoor() {
-        List<Door> openableDoors = doors.stream().filter(door -> (!door.isOpen() && door != winner && door != chosen)).toList();
-        openableDoors.get(random.nextInt(openableDoors.size())).open();
+        RandomAccessList<Door> openableDoors = doors.stream().filter(door -> (!door.isOpen() && door != winner && door != chosen)).collect(toRandomAccessList());
+        openableDoors.getRandomElement().open();
     }
 
     public List<Door> getDoors() {
